@@ -6,6 +6,11 @@ this is in new branch
 through the web syte
 newline for test
 new feature added
+<<<<<<< HEAD
 ############################
 
 hey new feature bro, test it
+=======
+###########################
+second feature, piska
+>>>>>>> 3f0cf03 (second piska commit)
