@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: Build with MPI",
+            "command": "/usr/bin/mpicxx",  // Используем mpicxx для работы с MPI
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}",  // Выходной файл с тем же именем
+                "-I/usr/include/openmpi",    // Путь к заголовочным файлам MPI
+                "-L/usr/lib/openmpi",        // Путь к библиотекам MPI
+                "-lmpi_cxx", "-lmpi"         // Линковка с библиотеками MPI
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Task for building C++ files with MPI support."
+        }
+    ]
+}
