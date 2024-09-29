@@ -4,13 +4,12 @@
 
 using namespace std;
 
-#define N1 64
+#define N1 4096
 //#define N1 64
 //#define N1 256
 //#define N1 1024
 //#define N1 4096
 #define S1 10
-#define S2 15
 #define max 10
 int main(int argc, char** argv) {
     float A[N1], B[N1], C[N1], Y[N1];
@@ -41,7 +40,7 @@ MPI_COMM_WORLD);
 MPI_COMM_WORLD);
         }
         // Цикл вычислений
-        for (int i = 0; i < N1 / size; i++) Y[i] = (A[i] + B[i] + C[i]) * S1 + S2;
+        for (int i = 0; i < N1 / size; i++) Y[i] = (A[i] + B[i] * S1 + C[i]) * A[i];
         // Сбор результатов в массив Y
         for (int i = 1; i < size; i++) MPI_Recv(&Y[(int)i * N1 / size], (int)N1 / 
 size, MPI_FLOAT, i, 0, MPI_COMM_WORLD, &status);
@@ -61,8 +60,7 @@ MPI_COMM_WORLD, &status);
             MPI_Recv(&C[(int)rank * N1 / size], (int)N1 / size, MPI_FLOAT, 0, 0, 
 MPI_COMM_WORLD, &status);
             // Вычисления
-            for (int i = rank * N1 / size; i < (rank + 1) * N1 / size; i++) Y[i] = 
-(A[i] + B[i] + C[i]) * S1 + S2;
+            for (int i = rank * N1 / size; i < (rank + 1) * N1 / size; i++) Y[i] = (A[i] + B[i] * S1 + C[i]) * A[i];
             // Передача результатов нулевому процессу
             MPI_Send(&Y[(int)rank * N1 / size], (int)N1 / size, MPI_FLOAT, 0, 0, 
 MPI_COMM_WORLD);
